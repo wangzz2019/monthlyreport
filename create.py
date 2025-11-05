@@ -54,15 +54,16 @@ def _business_days_jp(year: int, month: int):
         yield d
 
 
-def _rand_time_hour(hour: int) -> str:
-    return f"{hour:02d}:{random.randint(0,59):02d}"
+def _rand_datetime_str(d: dt.date, hour: int) -> str:
+    minute = random.randint(0, 59)
+    return f"{d.year}-{d.month}-{d.day} {hour:02d}:{minute:02d}"
 
 
 def generate_month_rows(year: int, month: int) -> List[List[Any]]:
     rows: List[List[Any]] = []
     for d in _business_days_jp(year, month):
-        start = _rand_time_hour(9)
-        end = _rand_time_hour(18)
+        start = _rand_datetime_str(d, 9)
+        end = _rand_datetime_str(d, 18)
         rows.append([start, end, "", d.strftime("%Y-%m-%d"), "", ""])
     return rows
 
