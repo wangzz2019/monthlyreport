@@ -16,3 +16,6 @@ htmlcov/
 .DS_Store
 *.log
 .env
+*.xls
+*.xlsx
+
