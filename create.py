@@ -25,9 +25,11 @@ def generate_xls(rows: List[List[Any]], file_path: str, sheet_name: str = "Sheet
     for col_idx, h in enumerate(FIXED_HEADERS):
         ws.write(0, col_idx, h)
 
+    padding = [""] * len(FIXED_HEADERS)
+    
     # Write data rows, pad/truncate to match header length
     for row_idx, r in enumerate(rows, start=1):
-        values = (r + [""] * len(FIXED_HEADERS))[: len(FIXED_HEADERS)]
+        values = (r + padding)[: len(FIXED_HEADERS)]
         for col_idx, val in enumerate(values):
             ws.write(row_idx, col_idx, val)
 
