@@ -1,4 +1,4 @@
-me: Devin on "devin" label
+name: Devin on "devin" label
 on:
   issues:
     types: [labeled]
