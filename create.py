@@ -68,14 +68,47 @@ def generate_month_rows(year: int, month: int) -> List[List[Any]]:
     return rows
 
 
-if __name__ == "__main__":
-    args = _parse_args()
-    year = args.year
-    month = args.month
+def _validate_date(year: int, month: int) -> None:
+    """Validate year and month are within reasonable range (last 3 months to next 3 months)."""
     if year < 1:
         raise SystemExit("Year must be positive")
     if not (1 <= month <= 12):
         raise SystemExit("Month must be between 1 and 12")
+    
+    today = dt.date.today()
+    current_year = today.year
+    current_month = today.month
+    
+    try:
+        input_date = dt.date(year, month, 1)
+    except ValueError:
+        raise SystemExit(f"Invalid date: {year}-{month:02d}")
+    
+    three_months_ago = today - dt.timedelta(days=90)
+    three_months_later = today + dt.timedelta(days=90)
+    
+    if input_date < three_months_ago or input_date > three_months_later:
+        suggestion = ""
+        if year > current_year + 100:
+            suggested_year = year - 1000
+            if 1900 <= suggested_year <= current_year + 10:
+                suggestion = f"\nDid you mean {suggested_year} instead of {year}?"
+        
+        error_msg = (
+            f"Date {year}-{month:02d} is outside the valid range.\n"
+            f"Please use dates between {three_months_ago.strftime('%Y-%m')} "
+            f"and {three_months_later.strftime('%Y-%m')} "
+            f"(last 3 months to next 3 months).{suggestion}"
+        )
+        raise SystemExit(error_msg)
+
+
+if __name__ == "__main__":
+    args = _parse_args()
+    year = args.year
+    month = args.month
+    
+    _validate_date(year, month)
 
     filename = f"{year}{month:02d}.xls"
 
