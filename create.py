@@ -68,7 +68,7 @@ def generate_month_rows(year: int, month: int) -> List[List[Any]]:
     return rows
 
 
-def _get_allowed_date_range(months_offset: int = 3) -> Tuple[dt.date, dt.date]:
+def _get_allowed_date_range(months_offset: int = 4) -> Tuple[dt.date, dt.date]:
     """
     Calculate the allowed date range based on current date.
     Returns (min_date, max_date) tuple.
@@ -126,7 +126,7 @@ def _validate_date_range(year: int, month: int) -> None:
         error_msg = (
             f"Date {year}/{month:02d} is outside the allowed range.\n"
             f"Allowed range: {min_date.strftime('%Y/%m')} to {max_date.strftime('%Y/%m')} "
-            f"(±3 months from today)"
+            f"(±4 months from today)"
         )
         
         suggested_year = _suggest_year_correction(year)
